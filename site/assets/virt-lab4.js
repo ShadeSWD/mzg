@@ -68,7 +68,7 @@
   }
   function reset() {
     rows.clear(); render();
-    $('v4hint').textContent = 'Виртуальные данные очищены — на странице действуют данные отчёта.';
+    $('v4hint').textContent = 'Виртуальные данные очищены — на странице действуют учебный пример.';
   }
 
   function render() {

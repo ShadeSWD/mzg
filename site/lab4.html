@@ -73,7 +73,7 @@
   <p>Продуйте шар сами: ползунком задавайте скорость потока (3…21 м/с),
   следите за весами — стрелка дрожит в пределах ±3 %, как настоящие
   аэродинамические весы, — и снимайте отсчёты (V, R). По каждой снятой точке
-  считаются Re и C<sub>x</sub>, и они лягут точками на график поверх отчётных.</p>
+  считаются Re и C<sub>x</sub>, и они лягут точками на график поверх исходных.</p>
   <div class="panel">
     <svg id="v4" viewBox="0 0 640 260" class="geo-board" style="max-width:640px">
       <!-- сопло и рабочая часть -->
@@ -118,7 +118,7 @@
       <span class="sep"></span>
       <button type="button" class="btn auto" id="v4auto">▶ авто-опыт</button><button type="button" class="btn stop" id="v4stop" style="display:none">■ стоп</button><span class="readout" id="v4prog" style="display:none"></span>
       <button type="button" class="btn take" id="v4snap">снять отсчёт</button>
-      <button type="button" class="btn" id="v4reset">вернуть данные отчёта</button>
+      <button type="button" class="btn" id="v4reset">вернуть учебный пример</button>
     </div>
     <div class="virt-hint" id="v4hint">Задайте скорость, дождитесь установившегося показания весов и снимайте отсчёт; для приличной кривой возьмите 5–7 скоростей.</div>
     <div id="v4out"></div>
@@ -161,7 +161,7 @@
     <tr><td>9</td><td>3,6</td><td>0,075</td><td>21 700</td><td>0,15</td><td><b>1,52</b></td></tr>
   </table>
 
-  <div class="note warn"><b>Про ошибку исходного отчёта.</b> В отчёте
+  <div class="note warn"><b>Про ошибку учебного расчёта.</b> В отчёте
   C<sub>x</sub> получился 0,05–0,15 — ровно в 10 раз меньше правильного:
   площадь миделя взята \(S = 0{,}0636\) м² вместо \(\pi D^2/4 = 0{,}00636\) м² (потерян
   порядок при переводе). Исправленные значения \(C_x \approx 0{,}5\) отлично
