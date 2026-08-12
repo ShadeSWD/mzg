@@ -12,10 +12,10 @@
   const nav = [
     { href: '', key: 'index', title: 'Обзор' },
     { href: 'theory', key: 'theory', title: 'Теория' },
-    { href: 'lab1', key: 'lab1', title: 'Лаб. 1 · Микроманометр' },
-    { href: 'lab3', key: 'lab3', title: 'Лаб. 3 · Трубопровод' },
-    { href: 'lab4', key: 'lab4', title: 'Лаб. 4 · Шар' },
-    { href: 'lab5', key: 'lab5', title: 'Лаб. 5 · Тело вращения' },
+    { href: 'lab1', key: 'lab1', title: 'Микроманометр' },
+    { href: 'lab3', key: 'lab3', title: 'Трубопровод' },
+    { href: 'lab4', key: 'lab4', title: 'Сопротивление шара' },
+    { href: 'lab5', key: 'lab5', title: 'Тело вращения' },
     { href: 'sources', key: 'sources', title: 'Источники' },
   ];
   const header = document.createElement('header');
