@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Распределение давления по телу вращения</title>
 <meta name="description" content="Эпюра коэффициента давления Cp(x) по телу вращения с 14 дренажными точками: скорость потока по трубке Пито, положительное давление на носу, разрежение у миделя, восстановление к корме — с честным пересчётом.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💧</text></svg>">
 <link rel="stylesheet" href="assets/style.css">
 <style>
   table.data { border-collapse: collapse; font: 14px system-ui, sans-serif; background: #fff; margin: 12px 0; }
@@ -81,6 +82,56 @@
     (<a href="lab1">лаб. 1</a>) переводится в паскали. Скорость набегающего
     потока v<sub>∞</sub> контролируется трубкой Пито. Условия опыта: воздух,
     \(\rho = 1{,}2\) кг/м³, t = 21 °C.</div>
+  </div>
+
+  <h2 id="virt">Виртуальный опыт</h2>
+  <p>Снимите эпюру сами: кликайте по дренажным точкам на контуре тела —
+  микроманометр покажет разность \(P - P_\infty\) с шумом, как настоящий датчик.
+  Каждый «снятый отсчёт» добавляет точку в вашу таблицу и на вашу эпюру
+  C<sub>p</sub>(x). У виртуальной модели носовое дренажное отверстие
+  исправно — сравните, что покажет точка 1 здесь и в натурном отчёте.</p>
+  <div class="panel">
+    <svg id="v5" viewBox="0 0 640 240" class="geo-board" style="max-width:640px">
+      <!-- поток -->
+      <g id="v5flow" class="layer-anim" stroke="#b3382e" stroke-width="1.4">
+        <line x1="14" y1="85" x2="66" y2="85" stroke-dasharray="8 10"/>
+        <line x1="14" y1="115" x2="66" y2="115" stroke-dasharray="8 10"/>
+        <line x1="14" y1="145" x2="66" y2="145" stroke-dasharray="8 10"/>
+      </g>
+      <text x="14" y="70" style="font:11px system-ui;fill:#b3382e">v∞ ≈ 24 м/с</text>
+      <!-- ось -->
+      <line x1="70" y1="115" x2="560" y2="115" stroke="#6b6b74" stroke-width="1" stroke-dasharray="8 5"/>
+      <!-- контур тела -->
+      <path d="M 90 115 L 94 95 L 100 79 L 115 63 L 134 51 L 178 35 L 223 29 L 266 29 L 308 35
+               L 352 45 L 396 58 L 440 73 L 484 93 L 530 115
+               L 484 137 L 440 157 L 396 172 L 352 185 L 308 195 L 266 201 L 223 201 L 178 195
+               L 134 179 L 115 167 L 100 151 L 94 135 Z"
+        fill="rgba(21,94,117,.08)" stroke="#16161a" stroke-width="2" stroke-linejoin="round"/>
+      <!-- трубка к датчику -->
+      <path id="v5link" d="" fill="none" stroke="#1a7f37" stroke-width="1.2" stroke-dasharray="5 4"/>
+      <!-- микроманометр -->
+      <rect x="500" y="14" width="76" height="30" fill="#fff" stroke="#16161a" stroke-width="1.8"/>
+      <text x="538" y="34" text-anchor="middle" style="font:700 12px system-ui;fill:#16161a">Д.Д.</text>
+      <text id="v5pt" x="538" y="60" text-anchor="middle" style="font:700 13px ui-monospace,monospace;fill:#155e75">— Па</text>
+      <text x="538" y="76" text-anchor="middle" style="font:10px system-ui;fill:#6b6b74">P − P∞ в точке</text>
+      <!-- дренажные точки (кликабельные) -->
+      <g id="v5taps"></g>
+      <text x="330" y="228" style="font:10px system-ui;fill:#6b6b74">кликните по дренажной точке, чтобы подключить датчик</text>
+    </svg>
+    <div class="virt-controls">
+      <span class="readout">ΔP<sub>ср</sub> (Пито) = 354 Па</span>
+      <span class="readout big" id="v5pr">точка 1: —</span>
+      <span class="sep"></span>
+      <button type="button" class="btn take" id="v5snap">снять отсчёт</button>
+      <button type="button" class="btn" id="v5reset">вернуть данные отчёта</button>
+    </div>
+    <div class="virt-hint" id="v5hint">Обойдите точки 1–14 по очереди — эпюра соберётся по мере отсчётов.</div>
+    <div id="v5out"></div>
+    <div class="caption">Виртуальная модель считает давление по физически
+    правильной эпюре обтекаемого тела вращения (с исправной носовой дренажной
+    точкой: в критической точке \(C_p \approx +1\)), датчик шумит на ±2 % и пару
+    паскалей. Скоростной напор набегающего потока — 354 Па, как в натурном
+    опыте.</div>
   </div>
 
   <h2>Формулы</h2>
@@ -199,5 +250,7 @@
   <p><a href="lab4">← Сопротивление шара</a> · <a href="sources">Источники →</a></p>
 </main>
 <script src="assets/site.js" data-root="./" data-page="lab5"></script>
+<script src="assets/virt-common.js"></script>
+<script src="assets/virt-lab5.js"></script>
 </body>
 </html>

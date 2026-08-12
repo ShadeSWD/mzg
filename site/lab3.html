@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Движение жидкости по трубопроводу</title>
 <meta name="description" content="Диаграмма Бернулли по измерениям в трубе ⌀96 мм: расход через трубу Вентури, пьезометрическая линия и линия полного напора, коэффициент местных потерь расходомера и коэффициент трения — с честным пересчётом ошибок отчёта.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💧</text></svg>">
 <link rel="stylesheet" href="assets/style.css">
 <style>
   table.data { border-collapse: collapse; font: 14px system-ui, sans-serif; background: #fff; margin: 12px 0; }
@@ -87,6 +88,87 @@
     подключается к дренажным штуцерам и снимает избыточное давление в сечениях
     по длине; оба датчика оцифровываются компьютером. Условия опыта: воздух,
     \(\rho = 1{,}184\) кг/м³, \(\nu = 15{,}06\cdot 10^{-6}\) м²/с, t = 25 °C.</div>
+  </div>
+
+  <h2 id="virt">Виртуальный опыт</h2>
+  <p>Проведите опыт сами: задайте режим вентилятора, кликами выбирайте
+  дренажные штуцеры и снимайте отсчёты датчика Д.Д.2 — по ним соберётся ваша
+  таблица сечений и ваша диаграмма Бернулли. Датчики показывают милливольты;
+  в паскали их переводит тарировочный коэффициент K из
+  <a href="lab1#virt">лаб. 1</a> — можно принести туда свой.</p>
+  <div class="panel">
+    <div id="v3pass"></div>
+    <svg id="v3" viewBox="0 0 640 300" class="geo-board" style="max-width:640px">
+      <!-- вентилятор -->
+      <rect x="28" y="170" width="80" height="90" fill="#fff" stroke="#16161a" stroke-width="2"/>
+      <circle cx="68" cy="215" r="27" fill="none" stroke="#16161a" stroke-width="1.4"/>
+      <g id="v3fan" stroke="#16161a" stroke-width="3" stroke-linecap="round" fill="none">
+        <path d="M 68 215 L 68 192 M 68 215 L 88 227 M 68 215 L 48 227"/>
+      </g>
+      <text x="24" y="278" style="font:11px system-ui;fill:#16161a">вентилятор (режим — ползунком)</text>
+      <!-- конфузор -->
+      <path d="M 108 175 L 150 196 M 108 255 L 150 210" fill="none" stroke="#16161a" stroke-width="2"/>
+      <!-- труба с Вентури -->
+      <path d="M 150 196 L 350 196 C 358 196 360 200 365 200 C 370 200 372 196 380 196 L 612 196"
+        fill="none" stroke="#16161a" stroke-width="2"/>
+      <path d="M 150 210 L 350 210 C 358 210 360 206 365 206 C 370 206 372 210 380 210 L 612 210"
+        fill="none" stroke="#16161a" stroke-width="2"/>
+      <!-- поток -->
+      <g id="v3flow" class="layer-anim" stroke="#b3382e" stroke-width="1.2">
+        <line x1="155" y1="200" x2="608" y2="200" stroke-dasharray="9 14"/>
+        <line x1="155" y1="203" x2="608" y2="203" stroke-dasharray="9 14" stroke-dashoffset="-8"/>
+        <line x1="155" y1="206" x2="608" y2="206" stroke-dasharray="9 14" stroke-dashoffset="-16"/>
+      </g>
+      <text x="230" y="232" style="font:11px system-ui;fill:#16161a">труба D = 96 мм</text>
+      <text x="330" y="248" style="font:11px system-ui;fill:#155e75">труба Вентури</text>
+      <line x1="365" y1="238" x2="365" y2="212" stroke="#155e75" stroke-width=".8"/>
+      <!-- Д.Д.1 на Вентури -->
+      <rect x="316" y="88" width="64" height="28" fill="#fff" stroke="#16161a" stroke-width="1.8"/>
+      <text x="348" y="107" text-anchor="middle" style="font:700 12px system-ui;fill:#16161a">Д.Д.1</text>
+      <line x1="350" y1="116" x2="350" y2="196" stroke="#1a7f37" stroke-width="1.2"/>
+      <line x1="380" y1="116" x2="380" y2="196" stroke="#1a7f37" stroke-width="1.2"/>
+      <text id="v3t1" x="348" y="82" text-anchor="middle" style="font:11px ui-monospace,monospace;fill:#1a7f37">— мВ</text>
+      <text x="250" y="70" text-anchor="middle" style="font:10px system-ui;fill:#6b6b74">перепад на Вентури → расход Q</text>
+      <!-- Д.Д.2 -->
+      <rect x="440" y="88" width="64" height="28" fill="#fff" stroke="#16161a" stroke-width="1.8"/>
+      <text x="472" y="107" text-anchor="middle" style="font:700 12px system-ui;fill:#16161a">Д.Д.2</text>
+      <text id="v3t2" x="472" y="82" text-anchor="middle" style="font:11px ui-monospace,monospace;fill:#155e75">— мВ</text>
+      <path id="v3link" d="" fill="none" stroke="#1a7f37" stroke-width="1.2" stroke-dasharray="5 4"/>
+      <text x="472" y="60" text-anchor="middle" style="font:10px system-ui;fill:#6b6b74">P_изб выбранного штуцера</text>
+      <!-- манометр-циферблат -->
+      <circle cx="578" cy="40" r="27" fill="#fff" stroke="#16161a" stroke-width="1.8"/>
+      <g stroke="#6b6b74" stroke-width="1">
+        <line x1="578" y1="16" x2="578" y2="21"/><line x1="559" y1="24" x2="562" y2="28"/>
+        <line x1="597" y1="24" x2="594" y2="28"/><line x1="555" y1="40" x2="560" y2="40"/>
+        <line x1="601" y1="40" x2="596" y2="40"/>
+      </g>
+      <line id="v3needle" x1="578" y1="40" x2="578" y2="19" stroke="#b3382e" stroke-width="1.8"/>
+      <circle cx="578" cy="40" r="2.2" fill="#16161a"/>
+      <text id="v3md" x="578" y="80" text-anchor="middle" style="font:700 12px ui-monospace,monospace;fill:#155e75">— Па</text>
+      <line x1="530" y1="102" x2="504" y2="102" stroke="#16161a" stroke-width="1.1"/>
+      <line x1="530" y1="102" x2="551" y2="63" stroke="#16161a" stroke-width="1.1"/>
+      <!-- штуцеры (кликабельные) -->
+      <g id="v3taps"></g>
+      <text x="150" y="160" style="font:10px system-ui;fill:#155e75">кликните по штуцеру, чтобы подключить Д.Д.2</text>
+    </svg>
+    <div class="virt-controls">
+      <label>режим вентилятора
+        <input type="range" id="v3r" min="40" max="110" value="100" step="1">
+        <span class="readout" id="v3rv">100 %</span></label>
+      <span class="sep"></span>
+      <span class="readout" id="v3kb">K = 4,30 Па/мВ (отчёт)</span>
+      <span class="readout big" id="v3d2">Д.Д.2: —</span>
+      <span class="sep"></span>
+      <button type="button" class="btn take" id="v3snap">снять отсчёт</button>
+      <button type="button" class="btn" id="v3reset">вернуть данные отчёта</button>
+    </div>
+    <div class="virt-hint" id="v3hint">Выберите штуцер и снимайте отсчёты; после первого отсчёта режим фиксируется до конца серии.</div>
+    <div id="v3out"></div>
+    <div class="caption">Виртуальная установка масштабирует профиль давления
+    натурного опыта пропорционально квадрату режима вентилятора
+    (\(P \propto v^2\)), а датчики выдают милливольты со своим «паспортным»
+    коэффициентом и шумом ±2 %. Перевод мВ → Па на этой странице идёт через
+    тот K, который вы принесли из тарировки (или отчётный 4,3).</div>
   </div>
 
   <h2>Формулы</h2>
@@ -210,5 +292,7 @@
   <p><a href="lab1">← Микроманометр</a> · <a href="lab4">Сопротивление шара →</a></p>
 </main>
 <script src="assets/site.js" data-root="./" data-page="lab3"></script>
+<script src="assets/virt-common.js"></script>
+<script src="assets/virt-lab3.js"></script>
 </body>
 </html>

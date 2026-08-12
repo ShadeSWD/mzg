@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Тарировка микроманометра</title>
 <meta name="description" content="Тарировка микроманометра по манометру типа тонущего колокола: схема установки, приведённая площадь, эталонное давление от гирь, тарировочный коэффициент K=ΔP/Δu — с реальными данными практикума СПбГМТУ.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💧</text></svg>">
 <link rel="stylesheet" href="assets/style.css">
 <style>
   table.data { border-collapse: collapse; font: 14px system-ui, sans-serif; background: #fff; margin: 12px 0; }
@@ -98,6 +99,101 @@
     \(d_1 = 50{,}1;\ d_2 = 84;\ d_3 = 98{,}8;\ d_4 = 119{,}8\) мм.</div>
   </div>
 
+  <h2 id="virt">Виртуальный опыт</h2>
+  <p>Проведите тарировку сами. Установка живая: положите гири на чашку —
+  коромысло качнётся и снова выровняется, когда давление под колоколом
+  уравновесит груз, а датчик покажет новые милливольты (с шумом ±0,5 мВ, как у
+  настоящего АЦП). Снимите нулевой отсчёт без гирь и не меньше трёх отсчётов с
+  разными гирями — ниже соберётся ваш журнал и посчитается ваш собственный
+  коэффициент K. Он получится не обязательно равным отчётному: это ваш опыт.</p>
+  <div class="panel">
+    <svg id="v1" viewBox="0 0 640 340" class="geo-board" style="max-width:640px">
+      <!-- земля -->
+      <line x1="40" y1="310" x2="480" y2="310" stroke="#16161a" stroke-width="1.6"/>
+      <g stroke="#6b6b74" stroke-width="1">
+        <line x1="60" y1="310" x2="52" y2="318"/><line x1="140" y1="310" x2="132" y2="318"/>
+        <line x1="260" y1="310" x2="252" y2="318"/><line x1="400" y1="310" x2="392" y2="318"/>
+        <line x1="450" y1="310" x2="442" y2="318"/>
+      </g>
+      <!-- стойка -->
+      <line x1="300" y1="310" x2="300" y2="112" stroke="#16161a" stroke-width="3"/>
+      <path d="M 300 100 l -9 12 l 18 0 z" fill="#fff" stroke="#16161a" stroke-width="1.6"/>
+      <!-- кольцевая ванна с водой (неподвижна) -->
+      <rect x="96" y="220" width="38" height="79" fill="rgba(21,94,117,.15)"/>
+      <rect x="166" y="220" width="38" height="79" fill="rgba(21,94,117,.15)"/>
+      <line x1="96" y1="220" x2="134" y2="220" stroke="#155e75" stroke-width="1.2"/>
+      <line x1="166" y1="220" x2="204" y2="220" stroke="#155e75" stroke-width="1.2"/>
+      <path d="M 95 190 L 95 300 L 205 300 L 205 190" fill="none" stroke="#16161a" stroke-width="2"/>
+      <path d="M 135 300 L 135 210 L 165 210 L 165 300" fill="none" stroke="#16161a" stroke-width="2"/>
+      <!-- трубка к датчику -->
+      <path d="M 130 200 L 70 200 L 70 35 L 355 35" fill="none" stroke="#1a7f37" stroke-width="1.6"/>
+      <!-- датчик давления -->
+      <rect x="355" y="18" width="72" height="34" fill="#fff" stroke="#16161a" stroke-width="1.8"/>
+      <text x="391" y="40" text-anchor="middle" style="font:700 13px system-ui;fill:#16161a">Д.Д.</text>
+      <!-- ПК с живым табло -->
+      <path d="M 427 30 L 545 30 L 545 88" fill="none" stroke="#16161a" stroke-width="1.2"/>
+      <rect x="470" y="90" width="150" height="86" rx="4" fill="#fff" stroke="#16161a" stroke-width="1.8"/>
+      <rect x="478" y="98" width="134" height="64" fill="rgba(21,94,117,.08)" stroke="#16161a" stroke-width="1"/>
+      <text id="v1su" x="545" y="126" text-anchor="middle" style="font:700 17px ui-monospace,monospace;fill:#155e75">u = 709,0 мВ</text>
+      <text id="v1sm" x="545" y="150" text-anchor="middle" style="font:10px ui-monospace,monospace;fill:#6b6b74">гирь нет · ΔP = 0 Па</text>
+      <line x1="545" y1="176" x2="545" y2="190" stroke="#16161a" stroke-width="1.6"/>
+      <path d="M 500 190 L 590 190 L 600 206 L 490 206 Z" fill="#fff" stroke="#16161a" stroke-width="1.4"/>
+      <text x="522" y="226" style="font:11px system-ui;fill:#16161a">ПК</text>
+      <!-- коромысло (наклоняется) -->
+      <g id="v1beam">
+        <line x1="150" y1="100" x2="450" y2="100" stroke="#16161a" stroke-width="3"/>
+      </g>
+      <circle cx="300" cy="100" r="3" fill="#b3382e"/>
+      <!-- левое плечо: чашка, гири, колокол (опускается) -->
+      <g id="v1left">
+        <line x1="150" y1="100" x2="150" y2="125" stroke="#16161a" stroke-width="1.6"/>
+        <line x1="150" y1="125" x2="133" y2="130" stroke="#16161a" stroke-width="1"/>
+        <line x1="150" y1="125" x2="167" y2="130" stroke="#16161a" stroke-width="1"/>
+        <path d="M 130 130 L 170 130 L 163 143 L 137 143 Z" fill="#fff" stroke="#16161a" stroke-width="1.6"/>
+        <g id="v1w"></g>
+        <line x1="150" y1="143" x2="150" y2="168" stroke="#16161a" stroke-width="1.6"/>
+        <rect x="112" y="178" width="8" height="88" fill="#fff" stroke="#16161a" stroke-width="1.4"/>
+        <rect x="180" y="178" width="8" height="88" fill="#fff" stroke="#16161a" stroke-width="1.4"/>
+        <rect x="106" y="168" width="88" height="10" fill="#fff" stroke="#16161a" stroke-width="1.4"/>
+      </g>
+      <!-- правое плечо: противовес (поднимается) -->
+      <g id="v1right">
+        <line x1="450" y1="100" x2="450" y2="130" stroke="#16161a" stroke-width="1.6"/>
+        <rect x="440" y="130" width="20" height="14" fill="#fff" stroke="#16161a" stroke-width="1.4"/>
+        <path d="M 440 144 L 428 156 L 428 226 L 472 226 L 472 156 L 460 144 Z" fill="#fff" stroke="#16161a" stroke-width="1.6"/>
+      </g>
+      <!-- подписи -->
+      <g class="layer-labels">
+        <text x="60" y="118" style="font:11px system-ui;fill:#b3382e">гири m</text>
+        <line x1="96" y1="115" x2="132" y2="122" stroke="#b3382e" stroke-width=".8"/>
+        <text x="215" y="200" style="font:11px system-ui;fill:#16161a">колокол</text>
+        <text x="215" y="245" style="font:11px system-ui;fill:#155e75">ванна с водой</text>
+        <text x="78" y="52" style="font:11px system-ui;fill:#1a7f37">трубка от полости колокола</text>
+        <text x="355" y="66" style="font:10px system-ui;fill:#6b6b74">датчик давления, u [мВ]</text>
+        <text x="418" y="248" style="font:11px system-ui;fill:#16161a">противовес</text>
+        <text x="322" y="88" style="font:11px system-ui;fill:#16161a">коромысло весов</text>
+      </g>
+    </svg>
+    <div class="virt-controls">
+      <button type="button" class="btn" id="v1add10">+10 г</button>
+      <button type="button" class="btn" id="v1add20">+20 г</button>
+      <button type="button" class="btn" id="v1clear">снять гири</button>
+      <span class="sep"></span>
+      <span class="readout big" id="v1rm">m = 0 г</span>
+      <span class="readout big" id="v1ru">u = 709,0 мВ</span>
+      <span class="sep"></span>
+      <button type="button" class="btn take" id="v1snap">снять отсчёт</button>
+      <button type="button" class="btn" id="v1reset">вернуть данные отчёта</button>
+    </div>
+    <div class="virt-hint" id="v1hint">Снимите нулевой отсчёт (без гирь), затем 3+ отсчёта с гирями.</div>
+    <div id="v1out"></div>
+    <div class="caption">Виртуальная установка считает честную физику:
+    \(\Delta P = mg/S_{\text{пр}}\) при \(S_{\text{пр}} = 0{,}007\) м², а датчик выдаёт
+    \(u = u_0 + \Delta P/K\) со своим «паспортным» K, слегка отличным от отчётного, и
+    шумом квантования ±0,5 мВ. Какой K получится у вас — зависит от ваших
+    отсчётов.</div>
+  </div>
+
   <h2>Формулы</h2>
   <p><b>Приведённая площадь</b> крышки колокола (\(S_1\ldots S_4\) — площади кругов
   диаметрами \(d_1\ldots d_4\), \(S_i = \pi d_i^2/4\)):</p>
@@ -189,5 +285,7 @@
   <p><a href="theory">← Теория</a> · <a href="lab3">Трубопровод →</a></p>
 </main>
 <script src="assets/site.js" data-root="./" data-page="lab1"></script>
+<script src="assets/virt-common.js"></script>
+<script src="assets/virt-lab1.js"></script>
 </body>
 </html>

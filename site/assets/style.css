@@ -193,3 +193,23 @@ footer.site .wrap { display: flex; flex-wrap: wrap; gap: 10px 30px; justify-cont
 a.card { text-decoration: none; color: inherit; }
 a.card:hover { border-color: var(--accent, #155e75); }
 a.card h3 { text-decoration: none; }
+
+/* ===== виртуальный опыт ===== */
+.virt-controls { display: flex; gap: 8px 10px; flex-wrap: wrap; align-items: center; margin: 12px 2px 4px; font-family: system-ui, sans-serif; font-size: 14px; }
+.virt-controls label { display: flex; align-items: center; gap: 8px; }
+.virt-controls input[type=range] { width: 170px; accent-color: #155e75; }
+.virt-controls .sep { width: 1px; align-self: stretch; background: var(--line); margin: 0 4px; }
+.btn.take { background: #155e75; border-color: #155e75; color: #fff; }
+.btn.take:hover { filter: brightness(1.12); color: #fff; }
+.btn:disabled { opacity: .45; cursor: default; pointer-events: none; }
+.readout.big { font-size: 15px; padding: 4px 10px; }
+.virt-pass { display: flex; gap: 10px 14px; align-items: center; flex-wrap: wrap;
+  background: #eef3ff; border: 1px solid #c9d6f2; border-radius: 10px;
+  padding: 8px 14px; margin: 0 0 12px; font: 14.5px system-ui, sans-serif; }
+.virt-pass b { color: #155e75; }
+.virt-hint { font: 13.5px system-ui, sans-serif; color: var(--muted); margin: 6px 2px; }
+.virt-hint.alert { color: #b3382e; }
+svg .tap { cursor: pointer; }
+svg .tap circle.hit { fill: rgba(21,94,117,0); stroke: none; }
+svg .tap:hover circle.dot { r: 4; }
+

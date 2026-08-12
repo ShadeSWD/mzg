@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Сопротивление шара</title>
 <meta name="description" content="Сопротивление шара ⌀90 мм в аэродинамической трубе: сила на весах при девяти скоростях, коэффициент Cx(Re), докритическая область Cx≈0,5 и кризис сопротивления — с исправлением ошибки отчёта в 10 раз.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💧</text></svg>">
 <link rel="stylesheet" href="assets/style.css">
 <style>
   table.data { border-collapse: collapse; font: 14px system-ui, sans-serif; background: #fff; margin: 12px 0; }
@@ -66,6 +67,65 @@
     рабочей частью меряют силу сопротивления R. Скоростной напор потока
     снимает трубка Пито через датчик давления Д.Д., оцифровка — на компьютере.
     Условия опыта: воздух, \(\rho = 1{,}196\) кг/м³, \(\nu = 1{,}492\cdot 10^{-5}\) м²/с, t = 22 °C.</div>
+  </div>
+
+  <h2 id="virt">Виртуальный опыт</h2>
+  <p>Продуйте шар сами: ползунком задавайте скорость потока (3…21 м/с),
+  следите за весами — стрелка дрожит в пределах ±3 %, как настоящие
+  аэродинамические весы, — и снимайте отсчёты (V, R). По каждой снятой точке
+  считаются Re и C<sub>x</sub>, и они лягут точками на график поверх отчётных.</p>
+  <div class="panel">
+    <svg id="v4" viewBox="0 0 640 260" class="geo-board" style="max-width:640px">
+      <!-- сопло и рабочая часть -->
+      <path d="M 30 40 L 120 72 M 30 216 L 120 184" fill="none" stroke="#16161a" stroke-width="2"/>
+      <line x1="120" y1="72" x2="540" y2="72" stroke="#16161a" stroke-width="2"/>
+      <line x1="120" y1="184" x2="540" y2="184" stroke="#16161a" stroke-width="2"/>
+      <text x="30" y="34" style="font:11px system-ui;fill:#16161a">сопло аэродинам. трубы</text>
+      <!-- поток (движущиеся штрихи) -->
+      <g id="v4flow" class="layer-anim" stroke="#b3382e" stroke-width="1.4">
+        <line x1="128" y1="90" x2="534" y2="90" stroke-dasharray="10 16"/>
+        <line x1="128" y1="166" x2="534" y2="166" stroke-dasharray="10 16"/>
+        <line x1="128" y1="109" x2="300" y2="109" stroke-dasharray="10 16"/>
+        <line x1="128" y1="147" x2="300" y2="147" stroke-dasharray="10 16"/>
+        <line x1="128" y1="128" x2="302" y2="128" stroke-dasharray="10 16"/>
+      </g>
+      <!-- след за шаром -->
+      <g id="v4wake" class="layer-anim" fill="none" stroke="#6b6b74" stroke-width="1.1"></g>
+      <!-- шар на державке -->
+      <circle cx="340" cy="128" r="28" fill="#fff" stroke="#16161a" stroke-width="2.2"/>
+      <text x="256" y="66" style="font:11px system-ui;fill:#16161a">шар D = 90 мм</text>
+      <line x1="322" y1="72" x2="333" y2="102" stroke="#6b6b74" stroke-width=".8"/>
+      <line x1="340" y1="156" x2="340" y2="200" stroke="#16161a" stroke-width="2"/>
+      <!-- весы -->
+      <rect x="288" y="200" width="118" height="30" fill="#fff" stroke="#16161a" stroke-width="1.8"/>
+      <line id="v4needle" x1="303" y1="224" x2="303" y2="206" stroke="#b3382e" stroke-width="1.8"/>
+      <circle cx="303" cy="224" r="2" fill="#16161a"/>
+      <text id="v4rt" x="358" y="219" text-anchor="middle" style="font:700 12px ui-monospace,monospace;fill:#155e75">R = — Н</text>
+      <text x="288" y="245" style="font:11px system-ui;fill:#16161a">аэродинамические весы</text>
+      <!-- трубка Пито -->
+      <rect x="202" y="86" width="40" height="6" fill="#fff" stroke="#1a7f37" stroke-width="1.4"/>
+      <line x1="240" y1="86" x2="240" y2="58" stroke="#1a7f37" stroke-width="1.4"/>
+      <text x="150" y="52" style="font:11px system-ui;fill:#1a7f37">трубка Пито → V</text>
+      <text id="v4vt" x="500" y="52" text-anchor="middle" style="font:700 13px ui-monospace,monospace;fill:#155e75">V = 12,0 м/с</text>
+      <text id="v4qt" x="500" y="66" text-anchor="middle" style="font:11px ui-monospace,monospace;fill:#6b6b74">q = 86 Па</text>
+    </svg>
+    <div class="virt-controls">
+      <label>скорость потока
+        <input type="range" id="v4v" min="3" max="21" value="12" step="0.1">
+        <span class="readout" id="v4vv">12,0 м/с</span></label>
+      <span class="sep"></span>
+      <span class="readout big" id="v4rr">R = — Н</span>
+      <span class="sep"></span>
+      <button type="button" class="btn take" id="v4snap">снять отсчёт</button>
+      <button type="button" class="btn" id="v4reset">вернуть данные отчёта</button>
+    </div>
+    <div class="virt-hint" id="v4hint">Задайте скорость, дождитесь установившегося показания весов и снимайте отсчёт; для приличной кривой возьмите 5–7 скоростей.</div>
+    <div id="v4out"></div>
+    <div class="caption">Виртуальная труба считает честную силу
+    \(R = C_x(\mathrm{Re})\cdot 0{,}5\rho V^2 S\) по гладкой кривой \(C_x(\mathrm{Re})\),
+    проведённой через исправленные данные практикума; весы добавляют шум ±3 %.
+    След за шаром оживает с ростом скорости — это тот самый вихревой след,
+    ширина которого и определяет сопротивление формы.</div>
   </div>
 
   <h2>Формулы</h2>
@@ -176,5 +236,7 @@
   <p><a href="lab3">← Трубопровод</a> · <a href="lab5">Тело вращения →</a></p>
 </main>
 <script src="assets/site.js" data-root="./" data-page="lab4"></script>
+<script src="assets/virt-common.js"></script>
+<script src="assets/virt-lab4.js"></script>
 </body>
 </html>
