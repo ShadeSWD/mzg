@@ -134,6 +134,31 @@
       (rs.length < 5 ? ' — для приличной кривой возьмите 5–7 скоростей.' : '. Хорошая серия!');
   }
 
+  {
+    const GRID = [4, 6, 8, 10, 12, 14, 16, 18, 20];
+    VL.auto({
+      autoBtn: 'v4auto', stopBtn: 'v4stop',
+      lockIds: ['v4snap', 'v4reset', 'v4v'],
+      total: () => GRID.length,
+      progress: (i, n) => {
+        const p = $('v4prog'); p.style.display = ''; p.textContent = `режим ${i} из ${n}`;
+      },
+      step: async (i, ctl) => {
+        if (i === 0) rows.clear();
+        $('v4v').value = GRID[i];
+        $('v4v').dispatchEvent(new Event('input'));
+        await ctl.sleep(700);            // выход трубы на режим + успокоение весов
+        if (!ctl.aborted()) snap();
+      },
+      onFinish: (aborted, done, n) => {
+        $('v4prog').style.display = 'none';
+        $('v4hint').textContent = aborted
+          ? `Прогон остановлен: снято ${done} из ${n} режимов.`
+          : 'Серия из девяти скоростей снята — ниже ваша кривая Cx(Re).';
+      },
+    });
+  }
+
   $('v4snap').addEventListener('click', snap);
   $('v4reset').addEventListener('click', reset);
   $('v4v').addEventListener('input', () => { $('v4vv').textContent = VL.fm(vNow(), 1) + ' м/с'; });

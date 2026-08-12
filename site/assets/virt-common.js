@@ -134,5 +134,41 @@ window.VL = (function () {
     });
   }
 
-  return { el, fm, lm, fgi, noise, mathify, step, qget, qdel, loop, meter, axes, series };
+  /* авто-опыт: робот-лаборант прогоняет серию измерений сам.
+   * cfg: {autoBtn, stopBtn — id кнопок; lockIds — id элементов, блокируемых
+   * на время прогона; total() — число измерений; step(i, api) — асинхронный
+   * шаг (внутри обычные snap с шумом); progress(i, n); onFinish(aborted)}.
+   * Возвращает {running()} — лабы блокируют клики по схеме во время прогона. */
+  function auto(cfg) {
+    const a = document.getElementById(cfg.autoBtn);
+    const s = document.getElementById(cfg.stopBtn);
+    let stop = false, running = false;
+    const sleep = ms => new Promise(r => setTimeout(r, ms));
+    function lock(on) {
+      (cfg.lockIds || []).forEach(id => {
+        const e = document.getElementById(id);
+        if (e) e.disabled = on;
+      });
+      a.style.display = on ? 'none' : '';
+      s.style.display = on ? '' : 'none';
+    }
+    a.addEventListener('click', async () => {
+      if (running) return;
+      running = true; stop = false; lock(true);
+      const n = cfg.total();
+      let done = 0;
+      for (let i = 0; i < n; i++) {
+        if (stop) break;
+        cfg.progress(i + 1, n);
+        await cfg.step(i, { sleep, aborted: () => stop });
+        done++;
+      }
+      lock(false); running = false;
+      cfg.onFinish(stop, done, n);
+    });
+    s.addEventListener('click', () => { stop = true; });
+    return { running: () => running };
+  }
+
+  return { el, fm, lm, fgi, noise, mathify, step, qget, qdel, loop, meter, axes, series, auto };
 })();

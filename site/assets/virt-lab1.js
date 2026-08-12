@@ -156,5 +156,32 @@
   $('v1clear').addEventListener('click', clearMasses);
   $('v1snap').addEventListener('click', snap);
   $('v1reset').addEventListener('click', reset);
+  /* --- авто-прогон серии --- */
+  {
+    const PLAN = [0, 10, 10, 20, 10, 20];   // 0 → 10 → 20 → 40 → 50 → 70 г
+    VL.auto({
+      autoBtn: 'v1auto', stopBtn: 'v1stop',
+      lockIds: ['v1add10', 'v1add20', 'v1clear', 'v1snap', 'v1reset'],
+      total: () => PLAN.length,
+      progress: (i, n) => {
+        const p = $('v1prog');
+        p.style.display = ''; p.textContent = `опыт ${i} из ${n}`;
+      },
+      step: async (i, ctl) => {
+        if (i === 0) { clearMasses(); points.clear(); }
+        else { masses.push(PLAN[i]); m += PLAN[i]; kick(PLAN[i]); drawWeights(); }
+        await ctl.sleep(750);            // успокоение коромысла и датчика
+        if (!ctl.aborted()) snap();
+      },
+      onFinish: (aborted, done, n) => {
+        $('v1prog').style.display = 'none';
+        syncButtons();
+        hint(aborted
+          ? `Прогон остановлен: снято ${done} из ${n} отсчётов — обработка идёт по снятым точкам.`
+          : 'Серия снята автоматически: нуль и пять нагружений. Ниже — обработка вашего опыта.');
+      },
+    });
+  }
+
   drawWeights(); syncButtons();
 })();

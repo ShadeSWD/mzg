@@ -133,6 +133,29 @@
       (rs.length < 14 ? ' Продолжайте обход контура.' : ' Эпюра полная!');
   }
 
+  {
+    VL.auto({
+      autoBtn: 'v5auto', stopBtn: 'v5stop',
+      lockIds: ['v5snap', 'v5reset'],
+      total: () => PTS.length,
+      progress: (i, n) => {
+        const p = $('v5prog'); p.style.display = ''; p.textContent = `точка ${i} из ${n}`;
+      },
+      step: async (i, ctl) => {
+        if (i === 0) rows.clear();
+        sel = i; drawSel();
+        await ctl.sleep(520);            // переключение трубки и успокоение манометра
+        if (!ctl.aborted()) snap();
+      },
+      onFinish: (aborted, done, n) => {
+        $('v5prog').style.display = 'none';
+        $('v5hint').textContent = aborted
+          ? `Прогон остановлен: снято ${done} из ${n} точек.`
+          : 'Все четырнадцать дренажных точек обойдены — ниже ваша эпюра Cp(x).';
+      },
+    });
+  }
+
   $('v5snap').addEventListener('click', snap);
   $('v5reset').addEventListener('click', reset);
 })();

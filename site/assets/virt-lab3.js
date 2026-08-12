@@ -220,6 +220,29 @@
       : 'Выберите штуцер и снимайте отсчёты.';
   }
 
+  {
+    VL.auto({
+      autoBtn: 'v3auto', stopBtn: 'v3stop',
+      lockIds: ['v3snap', 'v3reset', 'v3r'],
+      total: () => PTS.length,
+      progress: (i, n) => {
+        const p = $('v3prog'); p.style.display = ''; p.textContent = `сечение ${i} из ${n}`;
+      },
+      step: async (i, ctl) => {
+        if (i === 0) rows.clear();
+        sel = i; drawSel();
+        await ctl.sleep(650);            // датчик выходит на режим
+        if (!ctl.aborted()) snap();
+      },
+      onFinish: (aborted, done, n) => {
+        $('v3prog').style.display = 'none';
+        $('v3hint').textContent = aborted
+          ? `Прогон остановлен: снято ${done} из ${n} сечений.`
+          : 'Обход всех дренажных сечений выполнен — ниже ваша диаграмма Бернулли.';
+      },
+    });
+  }
+
   $('v3snap').addEventListener('click', snap);
   $('v3reset').addEventListener('click', reset);
   $('v3r').addEventListener('input', () => { $('v3rv').textContent = $('v3r').value + ' %'; });

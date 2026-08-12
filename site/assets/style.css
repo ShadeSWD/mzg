@@ -213,3 +213,8 @@ svg .tap { cursor: pointer; }
 svg .tap circle.hit { fill: rgba(21,94,117,0); stroke: none; }
 svg .tap:hover circle.dot { r: 4; }
 
+
+/* кнопки авто-прогона виртуального опыта */
+.btn.auto { background: #eef6ef; border-color: #bcd9c2; font-weight: 600; }
+.btn.auto:hover { background: #dcecdf; }
+.btn.stop { background: #fdeeee; border-color: #eec6c2; font-weight: 600; }
