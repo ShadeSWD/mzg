@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Лаб. 5. Распределение давления по телу вращения</title>
+<meta name="description" content="Эпюра коэффициента давления Cp(x) по телу вращения с 14 дренажными точками: скорость потока по трубке Пито, положительное давление на носу, разрежение у миделя, восстановление к корме — с честным пересчётом.">
+<link rel="stylesheet" href="assets/style.css">
+<style>
+  table.data { border-collapse: collapse; font: 14px system-ui, sans-serif; background: #fff; margin: 12px 0; }
+  table.data th, table.data td { border: 1px solid #d8d6cf; padding: 4px 10px; text-align: center; }
+  table.data th { background: #eceae3; font-weight: 600; }
+  .steps > div { margin: 7px 0; }
+</style>
+</head>
+<body>
+<main class="wrap">
+  <h1>Лаб. 5. Распределение давления по телу вращения</h1>
+  <p class="lead">Осесимметричное тело длиной 220 мм с 14 дренажными
+  отверстиями вдоль образующей обдувается потоком ≈24 м/с. Каждое отверстие по
+  очереди подключается к датчику давления — получается распределение давления
+  по поверхности, которое приводится к безразмерному коэффициенту
+  C<sub>p</sub>. Это тот самый эксперимент, из которого видно, откуда у тела
+  берётся сопротивление формы.</p>
+
+  <h2>Схема: тело с дренажными точками</h2>
+  <div class="panel">
+    <svg viewBox="0 0 640 240" class="geo-board" style="max-width:640px">
+      <!-- поток -->
+      <g stroke="#b3382e" stroke-width="1.6">
+        <line x1="20" y1="85" x2="58" y2="85"/><line x1="20" y1="115" x2="58" y2="115"/>
+        <line x1="20" y1="145" x2="58" y2="145"/>
+      </g>
+      <path d="M 58 81 l 9 4 l -9 4 z M 58 111 l 9 4 l -9 4 z M 58 141 l 9 4 l -9 4 z" fill="#b3382e"/>
+      <text x="18" y="70" style="font:11px system-ui;fill:#b3382e">v∞ ≈ 24 м/с</text>
+      <!-- ось -->
+      <line x1="70" y1="115" x2="560" y2="115" stroke="#6b6b74" stroke-width="1" stroke-dasharray="8 5"/>
+      <!-- контур тела по точкам профиля (x,R), масштаб 2:1 -->
+      <path d="M 90 115 L 94 95 L 100 79 L 115 63 L 134 51 L 178 35 L 223 29 L 266 29 L 308 35
+               L 352 45 L 396 58 L 440 73 L 484 93 L 530 115
+               L 484 137 L 440 157 L 396 172 L 352 185 L 308 195 L 266 201 L 223 201 L 178 195
+               L 134 179 L 115 167 L 100 151 L 94 135 Z"
+        fill="rgba(21,94,117,.08)" stroke="#16161a" stroke-width="2" stroke-linejoin="round"/>
+      <!-- дренажные точки на верхней образующей -->
+      <g fill="#b3382e">
+        <circle cx="90" cy="115" r="2.6"><title>т.1: x=0, R=0 (нос)</title></circle>
+        <circle cx="94" cy="95" r="2.6"><title>т.2: x=2, R=10</title></circle>
+        <circle cx="100" cy="79" r="2.6"><title>т.3: x=5, R=18</title></circle>
+        <circle cx="115" cy="63" r="2.6"><title>т.4: x=12,5, R=26</title></circle>
+        <circle cx="134" cy="51" r="2.6"><title>т.5: x=22, R=32</title></circle>
+        <circle cx="178" cy="35" r="2.6"><title>т.6: x=44, R=40</title></circle>
+        <circle cx="223" cy="29" r="2.6"><title>т.7: x=66,5, R=43</title></circle>
+        <circle cx="266" cy="29" r="2.6"><title>т.8: x=88, R=43</title></circle>
+        <circle cx="308" cy="35" r="2.6"><title>т.9: x=109, R=40</title></circle>
+        <circle cx="352" cy="45" r="2.6"><title>т.10: x=131, R=35</title></circle>
+        <circle cx="396" cy="58" r="2.6"><title>т.11: x=153, R=28,5</title></circle>
+        <circle cx="440" cy="73" r="2.6"><title>т.12: x=175, R=21</title></circle>
+        <circle cx="484" cy="93" r="2.6"><title>т.13: x=197, R=11</title></circle>
+        <circle cx="530" cy="115" r="2.6"><title>т.14: x=220, R=0 (корма)</title></circle>
+      </g>
+      <text x="84" y="132" style="font:10px system-ui;fill:#b3382e">1</text>
+      <text x="219" y="22" style="font:10px system-ui;fill:#b3382e">7</text>
+      <text x="534" y="110" style="font:10px system-ui;fill:#b3382e">14</text>
+      <text x="330" y="24" style="font:11px system-ui;fill:#b3382e">дренажные точки 1–14 → к Д.Д.</text>
+      <line x1="328" y1="27" x2="312" y2="33" stroke="#b3382e" stroke-width=".8"/>
+      <!-- мидель -->
+      <line x1="244" y1="29" x2="244" y2="115" stroke="#155e75" stroke-width="1" stroke-dasharray="4 3"/>
+      <text x="196" y="140" style="font:11px system-ui;fill:#155e75">мидель, R = 43 мм</text>
+      <!-- размер -->
+      <line x1="90" y1="222" x2="530" y2="222" stroke="#16161a" stroke-width="1"/>
+      <path d="M 90 222 l 9 -4 l 0 8 z M 530 222 l -9 -4 l 0 8 z" fill="#16161a"/>
+      <line x1="90" y1="205" x2="90" y2="228" stroke="#16161a" stroke-width=".8"/>
+      <line x1="530" y1="205" x2="530" y2="228" stroke="#16161a" stroke-width=".8"/>
+      <text x="290" y="217" style="font:11px system-ui;fill:#16161a">220 мм</text>
+      <text x="404" y="196" style="font:10px system-ui;fill:#6b6b74">контур — по реальным ординатам R(x)</text>
+    </svg>
+    <div class="caption">Тело вращения в потоке аэродинамической трубы; контур
+    построен по реальной таблице профиля (x, R) из практикума, масштаб 2:1.
+    Красные точки — дренажные отверстия: каждое поочерёдно соединяется трубкой
+    с датчиком давления Д.Д., сигнал которого через тарировочный коэффициент
+    (<a href="lab1">лаб. 1</a>) переводится в паскали. Скорость набегающего
+    потока v<sub>∞</sub> контролируется трубкой Пито. Условия опыта: воздух,
+    ρ = 1,2 кг/м³, t = 21 °C.</div>
+  </div>
+
+  <h2>Формулы</h2>
+  <p style="text-align:center"><b>v<sub>∞</sub> = 1,01·√(2ΔP<sub>ср</sub>/ρ)</b>;&nbsp;&nbsp;&nbsp;
+  <b>C<sub>p</sub> = (P − P<sub>∞</sub>) / (0,5·ρ·v<sub>∞</sub>²)</b>,</p>
+  <p>где ΔP<sub>ср</sub> — среднее показание трубки Пито (скоростной напор
+  набегающего потока), 1,01 — тарировочный множитель трубки, P − P<sub>∞</sub> —
+  измеренная разность давления в дренажной точке и статического давления
+  невозмущённого потока. C<sub>p</sub> = +1 означает полное торможение
+  (критическая точка), C<sub>p</sub> &lt; 0 — разгон потока и разрежение
+  (см. <a href="theory">теорию</a>).</p>
+
+  <h2>Решение по шагам</h2>
+  <div class="panel steps">
+    <div>v<sub>∞</sub> = √(2ΔP<sub>ср</sub>/ρ) = <span style="color:#6b6b74">√(2·354/1,2)</span> = <b>24,3 м/с</b>
+      <span style="color:#6b6b74">(с множителем трубки 1,01 — 24,5 м/с; отчёт принял 24,3, разница 1 %)</span></div>
+    <div>q = 0,5·ρ·v<sub>∞</sub>² = <span style="color:#6b6b74">0,5·1,2·24,3²</span> = <b>354 Па</b>
+      <span style="color:#6b6b74">(скоростной напор; он же ΔP<sub>ср</sub>)</span></div>
+    <div>C<sub>p</sub> (точка 3, x = 5 мм) = (P−P<sub>∞</sub>)/q = <span style="color:#6b6b74">210/354</span> = <b>+0,59</b></div>
+    <div>C<sub>p</sub> (точка 7, мидель) = <span style="color:#6b6b74">−179/354</span> = <b>−0,51</b></div>
+    <div>C<sub>p</sub> (точка 14, корма) = <span style="color:#6b6b74">−4/354</span> = <b>−0,01 ≈ 0</b></div>
+  </div>
+
+  <h2>Журнал измерений и пересчёт</h2>
+  <table class="data">
+    <tr><th>i</th><th>x, мм</th><th>R, мм</th><th>P−P<sub>∞</sub>, Па</th><th>C<sub>p</sub> (отчёт)</th><th>C<sub>p</sub> (исправлено)</th></tr>
+    <tr><td>1</td><td>0</td><td>0</td><td>5</td><td>0,013</td><td><b>0,014</b></td></tr>
+    <tr><td>2</td><td>2</td><td>10</td><td>96</td><td>0,247</td><td><b>0,271</b></td></tr>
+    <tr><td>3</td><td>5</td><td>18</td><td>210</td><td>0,541</td><td><b>0,593</b></td></tr>
+    <tr><td>4</td><td>12,5</td><td>26</td><td>0</td><td>0</td><td><b>0</b></td></tr>
+    <tr><td>5</td><td>22</td><td>32</td><td>−78</td><td>−0,201</td><td><b>−0,220</b></td></tr>
+    <tr><td>6</td><td>44</td><td>40</td><td>−153</td><td>−0,394</td><td><b>−0,432</b></td></tr>
+    <tr><td>7</td><td>66,5</td><td>43</td><td>−179</td><td>−0,461</td><td><b>−0,506</b></td></tr>
+    <tr><td>8</td><td>88</td><td>43</td><td>−9</td><td>−0,023</td><td><b>−0,025</b></td></tr>
+    <tr><td>9</td><td>109</td><td>40</td><td>−17</td><td>−0,044</td><td><b>−0,048</b></td></tr>
+    <tr><td>10</td><td>131</td><td>35</td><td>−22</td><td>−0,057</td><td><b>−0,062</b></td></tr>
+    <tr><td>11</td><td>153</td><td>28,5</td><td>−4</td><td>−0,010</td><td><b>−0,011</b></td></tr>
+    <tr><td>12</td><td>175</td><td>21</td><td>−4</td><td>−0,010</td><td><b>−0,011</b></td></tr>
+    <tr><td>13</td><td>197</td><td>11</td><td>−4</td><td>−0,010</td><td><b>−0,011</b></td></tr>
+    <tr><td>14</td><td>220</td><td>0</td><td>−4</td><td>−0,010</td><td><b>−0,011</b></td></tr>
+  </table>
+
+  <div class="note warn"><b>Про обработку отчёта — два примечания.</b>
+  (1) В знаменателе C<sub>p</sub> отчёт использует 388 Па, хотя скоростной
+  напор по его же данным 0,5ρv<sub>∞</sub>² = 354 Па (361 Па с множителем
+  трубки) — знаменатель завышен на ~10 %, в таблице приведён честный пересчёт
+  на 354 Па. (2) В носовой критической точке (т. 1, x = 0) ожидается
+  C<sub>p</sub> ≈ +1 — полное торможение потока, а измерено лишь 0,014;
+  максимум пришёлся на т. 3. Почти наверняка носовое дренажное отверстие
+  засорено или негерметично — типичный дефект дренированных моделей; форма
+  остальной эпюры физически правильная.</div>
+
+  <h2>Эпюра C<sub>p</sub>(x)</h2>
+  <div class="panel">
+    <svg viewBox="0 0 640 300" class="geo-board" style="max-width:640px">
+      <!-- сетка -->
+      <g stroke="#eceae3" stroke-width="1">
+        <line x1="70" y1="80.8" x2="610" y2="80.8"/><line x1="70" y1="114.6" x2="610" y2="114.6"/>
+        <line x1="70" y1="182.3" x2="610" y2="182.3"/><line x1="70" y1="216.2" x2="610" y2="216.2"/>
+        <line x1="190" y1="30" x2="190" y2="250"/><line x1="310" y1="30" x2="310" y2="250"/>
+        <line x1="430" y1="30" x2="430" y2="250"/><line x1="550" y1="30" x2="550" y2="250"/>
+      </g>
+      <!-- оси -->
+      <line x1="70" y1="148.5" x2="616" y2="148.5" stroke="#16161a" stroke-width="1.6"/>
+      <line x1="70" y1="250" x2="70" y2="24" stroke="#16161a" stroke-width="1.6"/>
+      <g style="font:11px system-ui;fill:#6b6b74">
+        <text x="30" y="85">+0,4</text><text x="30" y="119">+0,2</text><text x="48" y="152">0</text>
+        <text x="32" y="186">−0,2</text><text x="32" y="220">−0,4</text>
+        <text x="76" y="38">Cp</text>
+        <text x="184" y="252">50</text><text x="300" y="252">100</text><text x="422" y="252">150</text>
+        <text x="544" y="252">200</text><text x="580" y="240">x, мм</text>
+      </g>
+      <!-- эпюра -->
+      <polyline points="70,146.1 74.8,102.6 82,48.1 100,148.5 122.8,185.7 175.6,221.6 229.6,234.1 281.2,152.7 331.6,156.6 384.4,159 437.2,150.4 490,150.4 542.8,150.4 598,150.4"
+        fill="none" stroke="#155e75" stroke-width="2"/>
+      <g fill="#155e75">
+        <circle cx="70" cy="146.1" r="3.3"><title>x=0: Cp=0,014 (ожидалось ≈+1)</title></circle>
+        <circle cx="74.8" cy="102.6" r="3.3"><title>x=2: Cp=0,271</title></circle>
+        <circle cx="82" cy="48.1" r="3.3"><title>x=5: Cp=0,593</title></circle>
+        <circle cx="100" cy="148.5" r="3.3"><title>x=12,5: Cp=0</title></circle>
+        <circle cx="122.8" cy="185.7" r="3.3"><title>x=22: Cp=−0,220</title></circle>
+        <circle cx="175.6" cy="221.6" r="3.3"><title>x=44: Cp=−0,432</title></circle>
+        <circle cx="229.6" cy="234.1" r="3.3"><title>x=66,5 (мидель): Cp=−0,506</title></circle>
+        <circle cx="281.2" cy="152.7" r="3.3"><title>x=88: Cp=−0,025</title></circle>
+        <circle cx="331.6" cy="156.6" r="3.3"><title>x=109: Cp=−0,048</title></circle>
+        <circle cx="384.4" cy="159" r="3.3"><title>x=131: Cp=−0,062</title></circle>
+        <circle cx="437.2" cy="150.4" r="3.3"><title>x=153: Cp=−0,011</title></circle>
+        <circle cx="490" cy="150.4" r="3.3"><title>x=175: Cp=−0,011</title></circle>
+        <circle cx="542.8" cy="150.4" r="3.3"><title>x=197: Cp=−0,011</title></circle>
+        <circle cx="598" cy="150.4" r="3.3"><title>x=220: Cp=−0,011</title></circle>
+      </g>
+      <!-- аннотации -->
+      <text x="94" y="44" style="font:11px system-ui;fill:#b3382e">+0,59 — разгон ещё не начался (x=5)</text>
+      <text x="240" y="240" style="font:11px system-ui;fill:#b3382e">−0,51 — максимум разрежения у миделя</text>
+      <text x="440" y="140" style="font:11px system-ui;fill:#1a7f37">к корме Cp → 0</text>
+      <text x="76" y="162" style="font:10px system-ui;fill:#6b6b74">т.1: 0,014 вместо ≈ +1 (дренаж?)</text>
+      <!-- силуэт тела для привязки по x -->
+      <path d="M 70 277 L 74.8 272.5 L 82 268.9 L 100 265.3 L 122.8 262.6 L 175.6 259 L 229.6 257.7
+               L 281.2 257.7 L 331.6 259 L 384.4 261.3 L 437.2 264.2 L 490 267.6 L 542.8 272 L 598 277
+               L 542.8 282 L 490 286.4 L 437.2 289.8 L 384.4 292.7 L 331.6 295 L 281.2 296.3 L 229.6 296.3
+               L 175.6 295 L 122.8 291.4 L 100 288.7 L 82 285.1 L 74.8 281.5 Z"
+        fill="rgba(107,107,116,.18)" stroke="#6b6b74" stroke-width="1"/>
+      <line x1="229.6" y1="234.1" x2="229.6" y2="257.7" stroke="#6b6b74" stroke-width=".8" stroke-dasharray="3 3"/>
+      <text x="604" y="280" style="font:10px system-ui;fill:#6b6b74">тело</text>
+    </svg>
+    <div class="caption">Эпюра коэффициента давления по длине тела (пересчёт со
+    знаменателем 354 Па); серый силуэт внизу — то же тело в том же масштабе по
+    x. Классическая картина обтекания: подпор на носовой части
+    (C<sub>p</sub> &gt; 0), разгон потока и максимум разрежения у миделя
+    (C<sub>p</sub> ≈ −0,5), затем торможение и почти полное восстановление
+    давления к корме (C<sub>p</sub> ≈ 0) — признак безотрывного обтекания
+    хорошо спрофилированного тела: сопротивление формы мало́, преобладает
+    трение.</div>
+  </div>
+
+  <p><a href="lab4">← Лаб. 4</a> · <a href="sources">Источники →</a></p>
+</main>
+<script src="assets/site.js" data-root="./" data-page="lab5"></script>
+</body>
+</html>

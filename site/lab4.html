@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Лаб. 4. Сопротивление шара</title>
+<meta name="description" content="Сопротивление шара ⌀90 мм в аэродинамической трубе: сила на весах при девяти скоростях, коэффициент Cx(Re), докритическая область Cx≈0,5 и кризис сопротивления — с исправлением ошибки отчёта в 10 раз.">
+<link rel="stylesheet" href="assets/style.css">
+<style>
+  table.data { border-collapse: collapse; font: 14px system-ui, sans-serif; background: #fff; margin: 12px 0; }
+  table.data th, table.data td { border: 1px solid #d8d6cf; padding: 4px 10px; text-align: center; }
+  table.data th { background: #eceae3; font-weight: 600; }
+  .steps > div { margin: 7px 0; }
+</style>
+</head>
+<body>
+<main class="wrap">
+  <h1>Лаб. 4. Сопротивление шара</h1>
+  <p class="lead">Шар диаметром 90 мм стоит на державке в аэродинамической
+  трубе; державка опирается на весы, которые меряют силу сопротивления R.
+  Скорость потока меняется в девять ступеней от 3,6 до 20,7 м/с (её даёт
+  трубка Пито через тарированный датчик давления — см.
+  <a href="lab1">лаб. 1</a>). Задача — построить зависимость коэффициента
+  сопротивления C<sub>x</sub> от числа Рейнольдса.</p>
+
+  <h2>Схема установки</h2>
+  <div class="panel">
+    <svg viewBox="0 0 640 240" class="geo-board" style="max-width:640px">
+      <!-- сопло и рабочая часть -->
+      <path d="M 30 40 L 120 72 M 30 216 L 120 184" fill="none" stroke="#16161a" stroke-width="2"/>
+      <line x1="120" y1="72" x2="540" y2="72" stroke="#16161a" stroke-width="2"/>
+      <line x1="120" y1="184" x2="540" y2="184" stroke="#16161a" stroke-width="2"/>
+      <text x="30" y="34" style="font:11px system-ui;fill:#16161a">сопло аэродинам. трубы</text>
+      <!-- поток -->
+      <g stroke="#b3382e" stroke-width="1.6">
+        <line x1="135" y1="108" x2="175" y2="108"/>
+        <line x1="135" y1="128" x2="175" y2="128"/>
+        <line x1="135" y1="148" x2="175" y2="148"/>
+      </g>
+      <path d="M 175 104 l 9 4 l -9 4 z M 175 124 l 9 4 l -9 4 z M 175 144 l 9 4 l -9 4 z" fill="#b3382e"/>
+      <text x="130" y="170" style="font:11px system-ui;fill:#b3382e">поток, V = 3,6…20,7 м/с</text>
+      <!-- трубка Пито -->
+      <rect x="202" y="86" width="40" height="6" fill="#fff" stroke="#1a7f37" stroke-width="1.4"/>
+      <line x1="240" y1="86" x2="240" y2="58" stroke="#1a7f37" stroke-width="1.4"/>
+      <text x="246" y="98" style="font:11px system-ui;fill:#1a7f37">трубка Пито</text>
+      <!-- Д.Д. -->
+      <rect x="208" y="28" width="64" height="30" fill="#fff" stroke="#16161a" stroke-width="1.8"/>
+      <text x="240" y="48" text-anchor="middle" style="font:700 12px system-ui;fill:#16161a">Д.Д.</text>
+      <line x1="272" y1="43" x2="480" y2="43" stroke="#16161a" stroke-width="1.1"/>
+      <!-- ПК -->
+      <rect x="480" y="20" width="110" height="66" rx="4" fill="#fff" stroke="#16161a" stroke-width="1.8"/>
+      <rect x="487" y="27" width="96" height="46" fill="rgba(21,94,117,.08)" stroke="#16161a" stroke-width="1"/>
+      <text x="596" y="60" style="font:11px system-ui;fill:#16161a">ПК</text>
+      <!-- шар на державке -->
+      <circle cx="340" cy="128" r="28" fill="#fff" stroke="#16161a" stroke-width="2.2"/>
+      <text x="382" y="96" style="font:11px system-ui;fill:#16161a">шар D = 90 мм</text>
+      <line x1="340" y1="156" x2="340" y2="200" stroke="#16161a" stroke-width="2"/>
+      <text x="348" y="178" style="font:11px system-ui;fill:#6b6b74">державка</text>
+      <rect x="300" y="200" width="80" height="26" fill="#fff" stroke="#16161a" stroke-width="1.8"/>
+      <text x="340" y="217" text-anchor="middle" style="font:700 11px system-ui;fill:#16161a">весы: сила R</text>
+      <!-- след -->
+      <path d="M 368 118 Q 400 110 420 118 M 368 138 Q 400 146 420 138" fill="none" stroke="#6b6b74" stroke-width="1" stroke-dasharray="3 3"/>
+      <text x="424" y="134" style="font:10px system-ui;fill:#6b6b74">вихревой след</text>
+    </svg>
+    <div class="caption">Поток из сопла обдувает шар на державке; весы под
+    рабочей частью меряют силу сопротивления R. Скоростной напор потока
+    снимает трубка Пито через датчик давления Д.Д., оцифровка — на компьютере.
+    Условия опыта: воздух, ρ = 1,196 кг/м³, ν = 1,492·10⁻⁵ м²/с, t = 22 °C.</div>
+  </div>
+
+  <h2>Формулы</h2>
+  <p style="text-align:center"><b>Re = D·V/ν</b>;&nbsp;&nbsp;&nbsp;
+  <b>C<sub>x</sub> = R / (0,5·ρ·V²·S)</b>;&nbsp;&nbsp;&nbsp;
+  <b>S = πD²/4 = 6,36·10⁻³ м²</b> — площадь миделя шара.</p>
+  <p>C<sub>x</sub> — безразмерная сила: сопротивление, отнесённое к скоростному
+  напору потока на площади миделя. Для геометрически подобных тел
+  C<sub>x</sub> зависит только от Re — в этом суть закона подобия, позволяющего
+  пересчитывать модельный эксперимент на натуру (см.
+  <a href="theory">теорию</a>).</p>
+
+  <h2>Решение по шагам (первая точка, V = 20,7 м/с)</h2>
+  <div class="panel steps">
+    <div>S = πD²/4 = <span style="color:#6b6b74">π·0,09²/4</span> = <b>6,36·10⁻³ м²</b></div>
+    <div>Re = DV/ν = <span style="color:#6b6b74">0,09·20,7/(1,492·10⁻⁵)</span> = <b>1,25·10⁵</b></div>
+    <div>q = 0,5ρV² = <span style="color:#6b6b74">0,5·1,196·20,7²</span> = <b>256 Па</b> (скоростной напор)</div>
+    <div>C<sub>x</sub> = R/(q·S) = <span style="color:#6b6b74">0,859/(256·6,36·10⁻³)</span> = <b>0,53</b></div>
+  </div>
+
+  <h2>Журнал измерений и пересчёт</h2>
+  <table class="data">
+    <tr><th>i</th><th>V, м/с</th><th>R, Н</th><th>Re</th><th>C<sub>x</sub> (отчёт)</th><th>C<sub>x</sub> (исправлено)</th></tr>
+    <tr><td>1</td><td>20,7</td><td>0,859</td><td>124 900</td><td>0,05</td><td><b>0,53</b></td></tr>
+    <tr><td>2</td><td>18,3</td><td>0,644</td><td>110 400</td><td>0,05</td><td><b>0,51</b></td></tr>
+    <tr><td>3</td><td>15,8</td><td>0,535</td><td>95 300</td><td>0,06</td><td><b>0,56</b></td></tr>
+    <tr><td>4</td><td>13,3</td><td>0,430</td><td>80 200</td><td>0,06</td><td><b>0,63</b></td></tr>
+    <tr><td>5</td><td>12,1</td><td>0,299</td><td>73 000</td><td>0,05</td><td><b>0,53</b></td></tr>
+    <tr><td>6</td><td>10,0</td><td>0,208</td><td>60 300</td><td>0,06</td><td><b>0,55</b></td></tr>
+    <tr><td>7</td><td>7,7</td><td>0,108</td><td>46 400</td><td>0,05</td><td><b>0,47</b></td></tr>
+    <tr><td>8</td><td>6,1</td><td>0,117</td><td>36 800</td><td>0,08</td><td><b>0,83</b></td></tr>
+    <tr><td>9</td><td>3,6</td><td>0,075</td><td>21 700</td><td>0,15</td><td><b>1,52</b></td></tr>
+  </table>
+
+  <div class="note warn"><b>Про ошибку исходного отчёта.</b> В отчёте
+  C<sub>x</sub> получился 0,05–0,15 — ровно в 10 раз меньше правильного:
+  площадь миделя взята S = 0,0636 м² вместо πD²/4 = 0,00636 м² (потерян
+  порядок при переводе). Исправленные значения C<sub>x</sub> ≈ 0,5 отлично
+  ложатся на классическую кривую сопротивления шара в докритической области —
+  а отчётные 0,05 соответствовали бы закритическому обтеканию, которого при
+  таких Re быть не может. Рост C<sub>x</sub> в двух последних точках (0,83 и
+  1,52) — скорее всего погрешность весов: при V = 3,6 м/с сила всего 0,075 Н.</div>
+
+  <h2>Зависимость C<sub>x</sub>(Re)</h2>
+  <div class="panel">
+    <svg viewBox="0 0 640 260" class="geo-board" style="max-width:640px">
+      <!-- сетка -->
+      <g stroke="#eceae3" stroke-width="1">
+        <line x1="70" y1="160.6" x2="610" y2="160.6"/><line x1="70" y1="101.3" x2="610" y2="101.3"/>
+        <line x1="70" y1="41.9" x2="610" y2="41.9"/>
+        <line x1="173.8" y1="30" x2="173.8" y2="220"/><line x1="277.7" y1="30" x2="277.7" y2="220"/>
+        <line x1="381.5" y1="30" x2="381.5" y2="220"/><line x1="485.4" y1="30" x2="485.4" y2="220"/>
+        <line x1="589.2" y1="30" x2="589.2" y2="220"/>
+      </g>
+      <!-- оси -->
+      <line x1="70" y1="220" x2="616" y2="220" stroke="#16161a" stroke-width="1.6"/>
+      <line x1="70" y1="220" x2="70" y2="24" stroke="#16161a" stroke-width="1.6"/>
+      <g style="font:11px system-ui;fill:#6b6b74">
+        <text x="66" y="234">0</text><text x="150" y="234">25 000</text><text x="254" y="234">50 000</text>
+        <text x="358" y="234">75 000</text><text x="458" y="234">100 000</text><text x="562" y="234">125 000</text>
+        <text x="560" y="252">Re</text>
+        <text x="50" y="224">0</text><text x="42" y="164">0,5</text><text x="42" y="105">1,0</text>
+        <text x="42" y="46">1,5</text>
+        <text x="76" y="38">Cx</text>
+      </g>
+      <!-- уровень 0,5 -->
+      <line x1="70" y1="160.6" x2="610" y2="160.6" stroke="#1a7f37" stroke-width="1.2" stroke-dasharray="6 4"/>
+      <text x="380" y="200" style="font:11px system-ui;fill:#1a7f37">докритическая область, Cx ≈ 0,5</text>
+      <!-- данные -->
+      <polyline points="160.2,39.5 222.9,121.4 263,164.2 320.6,154.7 373.2,157.1 403.3,145.2 465.9,153.5 528.6,159.4 588.7,157.1"
+        fill="none" stroke="#155e75" stroke-width="2"/>
+      <g fill="#155e75">
+        <circle cx="160.2" cy="39.5" r="3.5"><title>Re=21 700, Cx=1,52</title></circle>
+        <circle cx="222.9" cy="121.4" r="3.5"><title>Re=36 800, Cx=0,83</title></circle>
+        <circle cx="263" cy="164.2" r="3.5"><title>Re=46 400, Cx=0,47</title></circle>
+        <circle cx="320.6" cy="154.7" r="3.5"><title>Re=60 300, Cx=0,55</title></circle>
+        <circle cx="373.2" cy="157.1" r="3.5"><title>Re=73 000, Cx=0,53</title></circle>
+        <circle cx="403.3" cy="145.2" r="3.5"><title>Re=80 200, Cx=0,63</title></circle>
+        <circle cx="465.9" cy="153.5" r="3.5"><title>Re=95 300, Cx=0,56</title></circle>
+        <circle cx="528.6" cy="159.4" r="3.5"><title>Re=110 400, Cx=0,51</title></circle>
+        <circle cx="588.7" cy="157.1" r="3.5"><title>Re=124 900, Cx=0,53</title></circle>
+      </g>
+      <text x="130" y="70" style="font:10px system-ui;fill:#6b6b74">малые скорости:</text>
+      <text x="130" y="82" style="font:10px system-ui;fill:#6b6b74">большая погрешность весов</text>
+      <text x="440" y="120" style="font:10px system-ui;fill:#b3382e">кризис при Re ≈ 3·10⁵ —</text>
+      <text x="440" y="132" style="font:10px system-ui;fill:#b3382e">за пределами опыта →</text>
+    </svg>
+    <div class="caption">Исправленные C<sub>x</sub> по девяти скоростям. При
+    Re &gt; 5·10⁴ точки держатся у C<sub>x</sub> ≈ 0,5 — это область
+    автомодельности (докритическое обтекание с ламинарным пограничным слоем и
+    ранним отрывом). Подъём при малых Re — в основном погрешность измерения
+    малых сил.</div>
+  </div>
+
+  <h2>Кризис сопротивления</h2>
+  <p>Если продолжать разгонять поток, при Re ≈ 3·10⁵ кривая C<sub>x</sub>(Re)
+  шара обрывается вниз — с ~0,5 до ~0,1. Причина — смена режима пограничного
+  слоя: ламинарный слой отрывается рано (около 80° от передней критической
+  точки) и оставляет за шаром широкий вихревой след с низким давлением;
+  турбулентный слой, возникающий перед точкой отрыва при закритических Re,
+  лучше сопротивляется росту давления, отрыв сдвигается к 110–120°, след
+  сужается, и сопротивление формы резко падает. Этим пользуются на практике:
+  турбулизатор (шероховатость, проволочное кольцо — как швы на футбольном
+  мяче) вызывает кризис раньше и снижает сопротивление. В нашем опыте
+  Re ≤ 1,25·10⁵, поэтому весь график лежит в докритической области —
+  подробнее в <a href="theory">теории</a>.</p>
+
+  <p><a href="lab3">← Лаб. 3</a> · <a href="lab5">Лаб. 5 →</a></p>
+</main>
+<script src="assets/site.js" data-root="./" data-page="lab4"></script>
+</body>
+</html>
