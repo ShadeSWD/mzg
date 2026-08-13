@@ -222,7 +222,11 @@ svg .tap:hover circle.dot { r: 4; }
 /* мобильная защита от горизонтального переполнения */
 main table { display: block; max-width: 100%; overflow-x: auto; }
 .katex-display { overflow-x: auto; overflow-y: hidden; padding: 2px 0 6px; }
-.katex-mathml { position: absolute; clip: rect(1px,1px,1px,1px); width: 1px; height: 1px; overflow: hidden; }
+/* KaTeX дублирует формулу в MathML и прячет дубль абсолютным позиционированием,
+   но без left/top: пустой бокс 1×1 остаётся в конце широкой строки формулы и на
+   узком экране растягивает документ по горизонтали (сама формула прокручивается
+   внутри .katex-display и переполнения не даёт). Прижимаем дубль к началу. */
+.katex-mathml { position: absolute; clip: rect(1px,1px,1px,1px); width: 1px; height: 1px; overflow: hidden; left: 0 !important; top: 0 !important; }
 svg.geo-board { max-width: 100%; height: auto; }
 .controls label { max-width: 100%; flex-wrap: wrap; }
 .controls select, .controls input[type=number] { max-width: 100%; }
