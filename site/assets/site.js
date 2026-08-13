@@ -10,28 +10,48 @@
     <text x="15" y="22" text-anchor="middle" font-size="17">💧</text>
   </svg>`;
   const nav = [
-    { href: '', key: 'index', title: 'Обзор' },
-    { href: 'theory', key: 'theory', title: 'Теория' },
-    { href: 'lab1', key: 'lab1', title: 'Микроманометр' },
-    { href: 'lab3', key: 'lab3', title: 'Трубопровод' },
-    { href: 'lab4', key: 'lab4', title: 'Сопротивление шара' },
-    { href: 'lab5', key: 'lab5', title: 'Тело вращения' },
-    { href: 'sources', key: 'sources', title: 'Источники' },
+    { h: '', k: 'index', t: 'Обзор' },
+    { t: 'Теория', h: 'theory', drop: [
+      { h: 'theory', k: 'theory', t: 'Оглавление курса' },
+      { h: 't-props', k: 'theory', t: '1. Жидкость как сплошная среда' },
+      { h: 't-statics', k: 'theory', t: '2. Гидростатика' },
+      { h: 't-kinematics', k: 'theory', t: '3. Кинематика' },
+      { h: 't-bernoulli', k: 'theory', t: '4. Уравнение Бернулли' },
+      { h: 't-losses', k: 'theory', t: '5. Режимы течения и потери' },
+      { h: 't-similarity', k: 'theory', t: '6. Подобие и моделирование' },
+      { h: 't-boundary', k: 'theory', t: '7. Пограничный слой' },
+    ] },
+    { t: 'Опыты', h: 'lab1', drop: [
+      { h: 'lab1', k: 'lab1', t: 'Тарировка микроманометра' },
+      { h: 'lab3', k: 'lab3', t: 'Диаграмма Бернулли' },
+      { h: 'lab4', k: 'lab4', t: 'Сопротивление шара' },
+      { h: 'lab5', k: 'lab5', t: 'Обтекание тела вращения' },
+    ] },
+    { h: 'sources', k: 'sources', t: 'Источники' },
   ];
+  const navLink = (it) =>
+    `<a href="${root}${it.h}" class="${page === it.k ? 'on' : ''}">${it.t}</a>`;
+  const navHtml = nav.map((g) => {
+    if (!g.drop) return navLink(g);
+    const on = g.drop.some((it) => page === it.k) ? 'on' : '';
+    return `<span class="nav-drop"><a href="${root}${g.h}" class="${on}">${g.t} ▾</a>`
+      + `<span class="drop">${g.drop.map(navLink).join('')}</span></span>`;
+  }).join('');
   const header = document.createElement('header');
   header.className = 'site';
   header.innerHTML = `<div class="wrap">
     <a class="logo" href="${root}">${logoSvg}<span>Механика жидкости и газа</span></a>
-    <nav class="top">${nav.map(({ href, key, title }) =>
-      `<a href="${root}${href}" class="${page === key ? 'on' : ''}">${title}</a>`).join('')}</nav>
+    <nav class="top">${navHtml}</nav>
   </div>`;
   document.body.prepend(header);
+  const onReady = (fn) => (document.readyState === 'loading'
+    ? document.addEventListener('DOMContentLoaded', fn) : fn());
   const footer = document.createElement('footer');
   footer.className = 'site';
   footer.innerHTML = `<div class="wrap">
     <div>Учебный сайт по курсу «Механика жидкости и газа» · экспериментальный практикум с разобранными расчётами</div>
   </div>`;
-  document.body.appendChild(footer);
+  onReady(() => document.body.appendChild(footer));
   const defs = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
   defs.setAttribute('width', '0'); defs.setAttribute('height', '0');
   defs.style.position = 'absolute';
@@ -41,5 +61,5 @@
     <marker id="arrS" markerWidth="10" markerHeight="8" refX="1" refY="4" orient="auto">
       <path d="M10,0 L0,4 L10,8 z" fill="#16161a"/></marker>
   </defs>`;
-  document.body.appendChild(defs);
+  onReady(() => document.body.appendChild(defs));
 })();
