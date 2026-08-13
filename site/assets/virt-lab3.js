@@ -17,7 +17,7 @@
     { X: 5135, P: 111 }, { X: 6785, P: 82 }, { X: 9035, P: 0 },
   ];
   PTS.forEach(p => { p.px = 190 + (p.X - 1600) * 415 / 7600; });
-  const H_REP = PTS.map(p => p.P / (RHO * G));      // отчётные h при 100 %
+  const H_REP = PTS.map(p => p.P / (RHO * G));      // h натурного опыта при 100 %
 
   /* тарировочный коэффициент: из URL (лаб. 1) или исходный */
   let K = 4.3, kFromUrl = false;
@@ -84,7 +84,7 @@
   /* --- плашка о переданном K --- */
   function renderPass() {
     const box = $('v3pass');
-    $('v3kb').textContent = 'K = ' + VL.fm(K, 2) + ' Па/мВ' + (kFromUrl ? ' (ваш)' : ' (отчёт)');
+    $('v3kb').textContent = 'K = ' + VL.fm(K, 2) + ' Па/мВ' + (kFromUrl ? ' (ваш)' : ' (учебный)');
     if (kFromUrl) {
       box.innerHTML = '<div class="virt-pass"><span>Данные переданы из ' +
         '<a href="lab1#virt">лаб. 1 (тарировка)</a>: <b>K = ' + VL.fm(K, 2) +
@@ -95,7 +95,7 @@
         VL.qdel('K'); K = 4.3; kFromUrl = false; renderPass(); render();
       });
     } else {
-      box.innerHTML = '<div class="virt-hint">Перевод мВ → Па идёт с отчётным K = 4,30 Па/мВ. ' +
+      box.innerHTML = '<div class="virt-hint">Перевод мВ → Па идёт с учебным K = 4,30 Па/мВ. ' +
         'Хотите со своим — <a href="lab1#virt">снимите тарировку в лаб. 1</a> и вернитесь по кнопке «использовать этот K».</div>';
     }
   }
@@ -185,7 +185,7 @@
       html += '<div class="virt-hint">Чтобы досчитать коэффициенты, снимите: ' + missing.join('; ') + '.</div>';
 
     html += '<h3>Ваша диаграмма Бернулли</h3><div id="v3chart"></div>' +
-      '<p class="small">Серым пунктиром — линии натурного отчёта (режим 100 %); ' +
+      '<p class="small">Серым пунктиром — линии натурного опыта (режим 100 %); ' +
       'цветом — ваши точки: <span style="color:#155e75"><b>h</b></span> — пьезометрическая, ' +
       '<span style="color:#b3382e"><b>H</b></span> — полный напор.</p>';
 
@@ -202,7 +202,7 @@
       yticks: Array.from({ length: ymax / 10 + 1 }, (_, i) => ({ v: i * 10, label: String(i * 10) })),
       xlab: 'X, мм', ylab: 'напор, м',
     });
-    /* отчётные линии (100 %) — пунктиром */
+    /* линии натурного опыта (100 %) — пунктиром */
     for (const [vals, off] of [[H_REP, 6.74], [H_REP, 0]]) {
       VL.el('polyline', {
         points: PTS.map((p, i) => ax.X(p.X).toFixed(1) + ',' + ax.Y(Math.min(ymax, vals[i] + off)).toFixed(1)).join(' '),

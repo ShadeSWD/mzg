@@ -13,7 +13,7 @@
     const Re = D * V / NU;
     return cxTrue(Re) * 0.5 * RHO * V * V * S;
   };
-  /* отчётные (исправленные) точки для подложки графика */
+  /* точки натурного опыта для подложки графика */
   const REPORT = [
     [21700, 1.52], [36800, 0.83], [46400, 0.47], [60300, 0.55], [73000, 0.53],
     [80200, 0.63], [95300, 0.56], [110400, 0.51], [124900, 0.53],
@@ -104,7 +104,7 @@
     html += '</div>';
 
     html += '<h3>Ваши точки на кривой C<sub>x</sub>(Re)</h3><div id="v4chart"></div>' +
-      '<p class="small">Серые кружки — исправленные точки натурного отчёта, ' +
+      '<p class="small">Серые кружки — точки натурного опыта, ' +
       '<span style="color:#1a7f37"><b>зелёные</b></span> — ваши. В докритической ' +
       'области точки должны держаться около C<sub>x</sub> ≈ 0,5.</p>';
     out.innerHTML = html;
@@ -123,7 +123,7 @@
     REPORT.forEach(([Re, Cx]) => {
       const c = VL.el('circle', { cx: ax.X(Re).toFixed(1), cy: ax.Y(Cx).toFixed(1), r: 3.2 }, rep);
       const t = VL.el('title', {}, c);
-      t.textContent = `отчёт: Re=${VL.fgi(Re)}, Cx=${VL.fm(Cx, 2)}`;
+      t.textContent = `натурный опыт: Re=${VL.fgi(Re)}, Cx=${VL.fm(Cx, 2)}`;
     });
     const own = rs.map(p => calc(p));
     VL.series(chart, own.map(w => [ax.X(w.Re), ax.Y(Math.min(1.6, w.Cx))]), '#1a7f37',
