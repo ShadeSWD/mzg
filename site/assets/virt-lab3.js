@@ -2,7 +2,6 @@
  * Принимает ?K=<Па/мВ> из лаб. 1 (тарировка) через querystring. */
 'use strict';
 (function () {
-  const $ = id => document.getElementById(id);
   const svg = $('v3');
   if (!svg || !window.VL) return;
 
@@ -65,9 +64,7 @@
     fanA = (fanA + dt * r * 600) % 360;
     $('v3fan').setAttribute('transform', `rotate(${fanA.toFixed(1)} 68 215)`);
     dashOff -= dt * v * 8;
-    [...$('v3flow').children].forEach((ln, i) => {
-      ln.style.strokeDashoffset = ((dashOff % 46) - i * 8) + 'px';
-    });
+    dashFlow('v3flow', dashOff, 46, 8);
 
     u1Out = m1.tick(dt, DPV0 * r * r / K_IST, x => x * (1 + VL.noise(0.02)));
     u2Out = m2.tick(dt, PTS[sel].P * r * r / K_IST, x => x * (1 + VL.noise(0.02)) + VL.noise(0.3));
@@ -225,9 +222,7 @@
       autoBtn: 'v3auto', stopBtn: 'v3stop',
       lockIds: ['v3snap', 'v3reset', 'v3r'],
       total: () => PTS.length,
-      progress: (i, n) => {
-        const p = $('v3prog'); p.style.display = ''; p.textContent = `сечение ${i} из ${n}`;
-      },
+      progress: progressLabel('v3prog', 'сечение'),
       step: async (i, ctl) => {
         if (i === 0) rows.clear();
         sel = i; drawSel();

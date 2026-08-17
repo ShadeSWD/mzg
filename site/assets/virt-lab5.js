@@ -1,7 +1,6 @@
 /* Лаб. 5 — виртуальная съёмка эпюры Cp(x) по телу вращения. */
 'use strict';
 (function () {
-  const $ = id => document.getElementById(id);
   const svg = $('v5');
   if (!svg || !window.VL) return;
 
@@ -55,9 +54,7 @@
 
   VL.loop(function (dt) {
     dashOff -= dt * 60;
-    [...$('v5flow').children].forEach((ln, i) => {
-      ln.style.strokeDashoffset = ((dashOff % 36) - i * 6) + 'px';
-    });
+    dashFlow('v5flow', dashOff, 36, 6);
     const p = PTS[sel];
     pOut = pm.tick(dt, p.cp * Q, x => x * (1 + VL.noise(0.02)) + VL.noise(2));
     const s = (pOut >= 0 ? '+' : '−') + VL.fm(Math.abs(pOut), 0) + ' Па';
@@ -138,9 +135,7 @@
       autoBtn: 'v5auto', stopBtn: 'v5stop',
       lockIds: ['v5snap', 'v5reset'],
       total: () => PTS.length,
-      progress: (i, n) => {
-        const p = $('v5prog'); p.style.display = ''; p.textContent = `точка ${i} из ${n}`;
-      },
+      progress: progressLabel('v5prog', 'точка'),
       step: async (i, ctl) => {
         if (i === 0) rows.clear();
         sel = i; drawSel();

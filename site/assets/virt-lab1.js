@@ -1,7 +1,6 @@
 /* Лаб. 1 — виртуальная тарировка микроманометра. */
 'use strict';
 (function () {
-  const $ = id => document.getElementById(id);
   const svg = $('v1');
   if (!svg || !window.VL) return;
 
@@ -163,10 +162,7 @@
       autoBtn: 'v1auto', stopBtn: 'v1stop',
       lockIds: ['v1add10', 'v1add20', 'v1clear', 'v1snap', 'v1reset'],
       total: () => PLAN.length,
-      progress: (i, n) => {
-        const p = $('v1prog');
-        p.style.display = ''; p.textContent = `опыт ${i} из ${n}`;
-      },
+      progress: progressLabel('v1prog', 'опыт'),
       step: async (i, ctl) => {
         if (i === 0) { clearMasses(); points.clear(); }
         else { masses.push(PLAN[i]); m += PLAN[i]; kick(PLAN[i]); drawWeights(); }

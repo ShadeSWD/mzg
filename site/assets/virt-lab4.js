@@ -1,7 +1,6 @@
 /* Лаб. 4 — виртуальная продувка шара: R(V) с весов → Cx(Re). */
 'use strict';
 (function () {
-  const $ = id => document.getElementById(id);
   const svg = $('v4');
   if (!svg || !window.VL) return;
 
@@ -29,9 +28,7 @@
     const V = vNow();
     const k = V / 21;
     dashOff -= dt * V * 7;
-    [...$('v4flow').children].forEach((ln, i) => {
-      ln.style.strokeDashoffset = ((dashOff % 52) - i * 9) + 'px';
-    });
+    dashFlow('v4flow', dashOff, 52, 9);
 
     /* след: волнистые линии за шаром, интенсивнее с ростом V */
     wakePhase += dt * (2 + 10 * k);
@@ -140,9 +137,7 @@
       autoBtn: 'v4auto', stopBtn: 'v4stop',
       lockIds: ['v4snap', 'v4reset', 'v4v'],
       total: () => GRID.length,
-      progress: (i, n) => {
-        const p = $('v4prog'); p.style.display = ''; p.textContent = `режим ${i} из ${n}`;
-      },
+      progress: progressLabel('v4prog', 'режим'),
       step: async (i, ctl) => {
         if (i === 0) rows.clear();
         $('v4v').value = GRID[i];
