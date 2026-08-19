@@ -31,6 +31,21 @@ svg.geo-board {
 .gray { stroke: #9a9aa2; }
 .lbl { font: italic 14.5px Georgia, serif; fill: #16161a; paint-order: stroke; stroke: #ffffffcc; stroke-width: 3px; }
 
+/* блок «Коротко» в начале главы */
+.tldr {
+  background: #e7f2f1; border: 1px solid #bcd8d5; border-left: 4px solid var(--accent);
+  border-radius: 10px; padding: 12px 16px; margin: 16px 0 22px;
+}
+.tldr h2, .tldr h3 { margin: 0 0 6px; font-size: 17px; font-family: system-ui, sans-serif; color: var(--accent); }
+.tldr ul { margin: 6px 0 0; padding-left: 20px; }
+.tldr li { margin: 4px 0; }
+
+/* вывод живых расчётов: формула = серым подстановка = жирным результат */
+.out { margin-top: 10px; }
+.calc-row { margin: 5px 0; font: 14px system-ui, sans-serif; }
+.calc-row .f { color: #3a3a42; }
+.note.ok { background: #eaf5ec; border-color: #bcdcc6; }
+
 /* библиография */
 ol.bib .bib-url { font: 13px system-ui, sans-serif; }
 

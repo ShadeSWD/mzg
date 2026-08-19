@@ -26,11 +26,18 @@
   - `lab5.html` — давление по телу вращения: эпюра Cp(x) по 14 дренажным точкам
   - `theory.html` — оглавление курса теории; главы `t-props`, `t-forces`,
     `t-statics`, `t-kinematics`, `t-bernoulli`, `t-losses`, `t-similarity`,
-    `t-boundary`
+    `t-boundary`, `t-flowmeters`, `t-ejector`
+  - `t-flowmeters.html` — расходомеры переменного перепада (труба Вентури,
+    сопло, диафрагма): вывод расхода, коэффициент расхода и сжатие струи,
+    границы применимости, безвозвратная потеря, кавитация, погрешность;
+    две анимации и живой расчёт
+  - `t-ejector.html` — струйные аппараты: коэффициент эжекции, характеристика
+    из теоремы количества движения, судовые применения; анимация подсоса и
+    живой расчёт
   - `sources.html` — источники (протоколы измерений практикума и учебники)
-  - `assets/` — `style.css`, `site.js` и движки виртуальных опытов
+  - `assets/` — `style.css`, `site.js`, движки виртуальных опытов
     (`virt-common.js`, `virt-lab1.js`, `virt-lab3.js`, `virt-lab4.js`,
-    `virt-lab5.js`)
+    `virt-lab5.js`) и движки прикладных глав (`venturi.js`, `ejector.js`)
 - `deploy/` — docker-compose (nginx:alpine, 127.0.0.1:8066) + конфиг nginx
 - `tests/` — тесты целостности сайта (pytest)
 
